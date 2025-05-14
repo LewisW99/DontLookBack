@@ -9,7 +9,10 @@ public class FirstPersonLook : MonoBehaviour
 
     Vector2 velocity;
     Vector2 frameVelocity;
-
+    
+    [Header("Yaw Clamp (Left/Right)")]
+    public float minYaw = -70f;
+    public float maxYaw = 70f;
 
     void Reset()
     {
@@ -25,15 +28,20 @@ public class FirstPersonLook : MonoBehaviour
 
     void Update()
     {
-        // Get smooth velocity.
+        // Get mouse delta input
         Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
-        velocity.y = Mathf.Clamp(velocity.y, -90, 90);
 
-        // Rotate camera up-down and controller left-right from velocity.
-        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
-        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+        // Clamp vertical look (pitch)
+        velocity.y = Mathf.Clamp(velocity.y, -90f, 90f);
+
+        // Clamp horizontal look (yaw)
+        velocity.x = Mathf.Clamp(velocity.x, minYaw, maxYaw);
+
+        // Apply rotations
+        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right); // Camera (up/down)
+        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);     // Player body (left/right)
     }
 }
