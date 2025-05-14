@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
 public class LookBackQTEManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class LookBackQTEManager : MonoBehaviour
     [SerializeField] private CanvasGroup qteCanvasGroup;
     [SerializeField] private float fadeDuration = 0.5f;
 
+    
     [Header("QTE Settings")]
     public float validLookBackTime = 2.0f;
     public float gracePeriod = 1.0f;
@@ -23,14 +25,13 @@ public class LookBackQTEManager : MonoBehaviour
     private Coroutine fadeRoutine;
 
     private float qteStartTime;
-    private bool qteActive = false;
-    private bool isLookingBack = false;
+    private bool isLookingBack;
 
-    public bool IsQTEActive => qteActive;
+    public bool IsQTEActive { get; private set; }
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -43,12 +44,12 @@ public class LookBackQTEManager : MonoBehaviour
     {
         cameraTransform = Camera.main?.transform;
 
-        if (cameraTransform == null)
+        if (!cameraTransform)
         {
             Debug.LogError("Camera not found! QTE system requires a main camera.");
         }
         
-        if (qteCanvasGroup != null)
+        if (qteCanvasGroup)
         {
             qteCanvasGroup.alpha = 0f;
             qteCanvasGroup.gameObject.SetActive(false); // prepare it to be shown later
@@ -57,7 +58,7 @@ public class LookBackQTEManager : MonoBehaviour
 
     private void Update()
     {
-        if (!qteActive || isLookingBack) return;
+        if (!IsQTEActive || isLookingBack) return;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -68,7 +69,7 @@ public class LookBackQTEManager : MonoBehaviour
             StartCoroutine(PerformLookBack(success));
         }
         
-        if (qteActive && !isLookingBack && Time.time > qteStartTime + validLookBackTime)
+        if (IsQTEActive && !isLookingBack && Time.time > qteStartTime + validLookBackTime)
         {
             QTEFailed("Player did not respond in time.");
         }
@@ -76,15 +77,15 @@ public class LookBackQTEManager : MonoBehaviour
 
     public void StartQTE()
     {
-        if (cameraTransform == null) cameraTransform = Camera.main?.transform;
-        if (cameraTransform == null)
+        if (!cameraTransform) cameraTransform = Camera.main?.transform;
+        if (!cameraTransform)
         {
             Debug.LogError("Cannot start QTE: No camera found.");
             return;
         }
 
         qteStartTime = Time.time;
-        qteActive = true;
+        IsQTEActive = true;
 
         ShowQTEVisual(true);
         Debug.Log("QTE Started. Press Q to look back at the right time!");
@@ -92,7 +93,7 @@ public class LookBackQTEManager : MonoBehaviour
 
     private void EndQTE()
     {
-        qteActive = false;
+        IsQTEActive = false;
         ShowQTEVisual(false);
     }
 
@@ -100,14 +101,14 @@ public class LookBackQTEManager : MonoBehaviour
     {
         if (fadeRoutine != null) StopCoroutine(fadeRoutine);
         
-        if (qteCanvasGroup != null && show)
+        if (qteCanvasGroup && show)
             qteCanvasGroup.gameObject.SetActive(true);
         fadeRoutine = StartCoroutine(FadeQTEVisual(show));
     }
 
     private IEnumerator FadeQTEVisual(bool show)
     {
-        if (qteCanvasGroup == null) yield break;
+        if (!qteCanvasGroup) yield break;
 
         qteCanvasGroup.gameObject.SetActive(true);
         float targetAlpha = show ? 1f : 0f;
