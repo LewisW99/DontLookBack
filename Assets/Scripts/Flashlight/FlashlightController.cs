@@ -1,30 +1,58 @@
 using UnityEngine;
-// ReSharper disable CheckNamespace
 
 public class FlashlightController : MonoBehaviour
 {
-    [SerializeField] private Light flashlight;
-    [SerializeField] private KeyCode toggleKey = KeyCode.F;
+    public Light flashlight;
 
-    public bool isOn;
+    [SerializeField] private KeyCode toggleKey = KeyCode.F;
+    [SerializeField] bool isOn;
+
+    [SerializeField] private int batteryCount = 1;
+
     void Start()
     {
         if (flashlight != null)
-            flashlight.enabled = false; // Ensure it's off at start
-    }
-    
-    public void ForceOff()
-    {
-        isOn = false;
-        flashlight.enabled = false;
+            flashlight.enabled = false; // Ensure flashlight is off at start
     }
 
-    public bool IsOn() => flashlight.enabled;
     void Update()
     {
         if (Input.GetKeyDown(toggleKey) && flashlight != null)
         {
-            flashlight.enabled = !flashlight.enabled;
+            ToggleFlashlight();
         }
     }
+
+    private void ToggleFlashlight()
+    {
+        isOn = !isOn;
+        flashlight.enabled = isOn;
+    }
+
+    public void ForceOff()
+    {
+        isOn = false;
+        if (flashlight != null)
+            flashlight.enabled = false;
+    }
+
+    public bool IsOn() => flashlight != null && flashlight.enabled;
+
+    public void AddBattery()
+    {
+        batteryCount++;
+        Debug.Log("Battery added. Total batteries: " + batteryCount);
+    }
+
+    public bool UseBattery()
+    {
+        if (batteryCount > 0)
+        {
+            batteryCount--;
+            return true;
+        }
+        return false;
+    }
+
+    public int GetBatteryCount() => batteryCount;
 }
