@@ -2,46 +2,71 @@
 
 public class FirstPersonLook : MonoBehaviour
 {
-    [SerializeField]
-    Transform character;
+    [SerializeField] Transform character;
+    [SerializeField] Transform cameraHolder; // Empty GameObject to hold the camera (for bobbing)
+
     public float sensitivity = 2;
     public float smoothing = 1.5f;
 
     Vector2 velocity;
     Vector2 frameVelocity;
-    
-    [Header("Yaw Clamp (Left/Right)")]
-    public float minYaw = -70f;
-    public float maxYaw = 70f;
+
+    [Header("Head Bobbing")]
+    public float bobFrequency = 1.5f;
+    public float bobAmplitude = 0.05f;
+    public FirstPersonMovement movementScript;
+    private float bobTimer = 0f;
+    private Vector3 initialCameraLocalPos;
 
     void Reset()
     {
-        // Get the character from the FirstPersonMovement in parents.
         character = GetComponentInParent<FirstPersonMovement>().transform;
     }
 
     void Start()
     {
-        // Lock the mouse cursor to the game screen.
         Cursor.lockState = CursorLockMode.Locked;
+        if (cameraHolder == null)
+            cameraHolder = transform; // fallback to camera if not assigned
+
+        initialCameraLocalPos = cameraHolder.localPosition;
     }
 
     void Update()
     {
-        // Get mouse delta input
+        // Mouse look
         Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
 
-        // Clamp vertical look (pitch)
-        velocity.y = Mathf.Clamp(velocity.y, -90f, 90f);
+        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
+        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
 
-        // Clamp horizontal look (yaw)
-        velocity.x = Mathf.Clamp(velocity.x, minYaw, maxYaw);
+        // Head bobbing
+        HandleHeadBobbing();
+    }
 
-        // Apply rotations
-        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right); // Camera (up/down)
-        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);     // Player body (left/right)
+    void HandleHeadBobbing()
+    {
+        if (movementScript == null) return;
+
+        Vector3 velocity = movementScript.GetComponent<Rigidbody>().linearVelocity;
+        Vector3 horizontalVelocity = new Vector3(velocity.x, 0, velocity.z);
+
+        if (horizontalVelocity.magnitude > 0.1f && movementScript.IsRunning || horizontalVelocity.magnitude > 0.1f)
+        {
+            bobTimer += Time.deltaTime * (movementScript.IsRunning ? bobFrequency * 1.5f : bobFrequency);
+            float bobOffset = Mathf.Sin(bobTimer * Mathf.PI * 2) * bobAmplitude;
+
+            Vector3 newPos = initialCameraLocalPos + new Vector3(0, bobOffset, 0);
+            cameraHolder.localPosition = newPos;
+        }
+        else
+        {
+            // Reset when idle
+            bobTimer = 0;
+            cameraHolder.localPosition = Vector3.Lerp(cameraHolder.localPosition, initialCameraLocalPos, Time.deltaTime * 5f);
+        }
     }
 }
