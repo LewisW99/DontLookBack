@@ -176,8 +176,8 @@ Camera:
   m_GameObject: {fileID: 1481125495813511327}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -247,12 +247,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 8954892329308692503}
-  cameraHolder: {fileID: 0}
+  cameraHolder: {fileID: 6692330950225666588}
   sensitivity: 2
   smoothing: 1.5
-  bobFrequency: 1.5
+  bobFrequency: 1
   bobAmplitude: 0.05
-  movementScript: {fileID: 0}
+  movementScript: {fileID: 2533244315991343105}
 --- !u!114 &8020656826737283882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1206,10 +1206,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBattery: 100
   currentBattery: 100
-  decayRate: 20
+  decayRate: 0.5
   rechargeRate: 5
   canRecharge: 0
-  lowBatteryThreshold: 35
+  lowBatteryThreshold: 20
   lowBatterySpotAngle: 20
   minIntensity: 0.2
   reloadKey: 114

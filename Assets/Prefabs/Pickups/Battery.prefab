@@ -123,3 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff566c1b87401e649800dc91ebd77949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupName: Battery
+  batteryAmount: 25
