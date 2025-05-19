@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class BatteryPickup : Pickup
 {
-    public float batteryAmount = 25f;
+    [SerializeField] private BatteryData batteryData;
 
     public override void OnPickup(GameObject player)
     {
-        FlashlightBattery battery = player.GetComponentInChildren<FlashlightBattery>();
-        if (battery != null)
+        var inventory = player.GetComponent<PlayerInventory>();
+        if (inventory != null)
         {
-            battery.AddBattery(batteryAmount);
+            inventory.AddBattery(batteryData);
+            Debug.Log("Picked up battery: " + batteryData.displayName);
+            if (batteryData.icon == null)
+            {
+                Debug.Log("icon is null");
+            }
+          
         }
     }
 }

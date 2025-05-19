@@ -94,16 +94,20 @@ public class FlashlightBattery : MonoBehaviour
 
     private void TryReloadBattery()
     {
-        if (flashlightController.UseBattery())
+        PlayerInventory inventory = flashlightController.GetComponent<PlayerInventory>();
+        if (inventory == null || inventory.collectedBatteries.Count == 0)
         {
-            currentBattery = maxBattery;
+            Debug.Log("No spare batteries.");
+            return;
+        }
 
-            Debug.Log("Battery reloaded. Current battery: " + currentBattery);
-        }
-        else
-        {
-            Debug.Log("No spare batteries available.");
-        }
+        // Remove first battery (or let player choose in future)
+        BatteryData battery = inventory.collectedBatteries[0];
+        inventory.collectedBatteries.RemoveAt(0);
+
+        currentBattery = Mathf.Clamp(currentBattery + battery.restoreAmount, 0f, maxBattery);
+        Debug.Log("Battery reloaded with " + battery.displayName);
+        InventoryUIManager.Instance?.RefreshUI();
     }
 
     private void CheckBatteryStatus()

@@ -124,4 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupName: Battery
-  batteryAmount: 25
+  batteryData: {fileID: 11400000, guid: 851ad41671a1e154997cd65ef5da30cb, type: 2}

@@ -3,16 +3,26 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private HashSet<KeyData> keys = new HashSet<KeyData>();
-
-    public bool HasKey(KeyData key)
-    {
-        return keys.Contains(key);
-    }
+    public List<KeyData> collectedKeys = new List<KeyData>();
+    public List<BatteryData> collectedBatteries = new List<BatteryData>();
 
     public void AddKey(KeyData key)
     {
-        keys.Add(key);
-        Debug.Log($"Added key: {key.displayName}");
+        if (!collectedKeys.Contains(key))
+        {
+            collectedKeys.Add(key);
+            InventoryUIManager.Instance?.RefreshUI();
+        }
+    }
+
+    public void AddBattery(BatteryData battery)
+    {
+        collectedBatteries.Add(battery);
+        InventoryUIManager.Instance?.RefreshUI();
+    }
+    
+    public bool HasKey(KeyData key)
+    {
+        return collectedKeys.Contains(key);
     }
 }
