@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4265a041954897941afec871c608473b, type: 3}
   m_Name: Crt
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   scanlinesWeight:
     m_OverrideState: 1
     m_Value: 1
@@ -458,7 +458,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.115
+    m_Value: 0.13
 --- !u!114 &-1915010034946784705
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -959,10 +959,10 @@ MonoBehaviour:
     m_Value: 0
   quality:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.006
   clamp:
     m_OverrideState: 1
     m_Value: 0.05

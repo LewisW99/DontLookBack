@@ -5,12 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/MovementDemo.unity
-    guid: 5f2b90ba65c7b244b875e239d5d42650
   - enabled: 1
-    path: Assets/Scenes/House_Greybox.unity
+    path: Assets/Scenes/GAMESCENES/MainMenu.unity
+    guid: ef2a4c2263f7a824283fb453565804de
+  - enabled: 1
+    path: Assets/Scenes/GAMESCENES/House_Greybox.unity
     guid: f8be297b0a3fd2e40b569d223fb95b4b
+  - enabled: 1
+    path: Assets/Scenes/GAMESCENES/SchoolGreybox.unity
+    guid: 68d0b804dd8ea5d42a7b281bd90bff7e
+  - enabled: 1
+    path: Assets/Scenes/GAMESCENES/LoadingScreen.unity
+    guid: 442ce439b9257264d9a979b9952de9c5
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

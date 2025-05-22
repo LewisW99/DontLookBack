@@ -11,13 +11,13 @@ public abstract class Lockable : MonoBehaviour
 
     public virtual bool TryUnlock(PlayerInventory inventory)
     {
-        if (inventory.HasKey(requiredKey))
+        if (inventory.HasItem(requiredKey))
         {
             Unlock();
             return true;
         }
 
-        Debug.Log("Missing key: " + requiredKey.displayName);
+        Debug.Log("Missing key: " + requiredKey);
         return false;
     }
 

@@ -3,26 +3,51 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public List<KeyData> collectedKeys = new List<KeyData>();
-    public List<BatteryData> collectedBatteries = new List<BatteryData>();
+    private List<InventoryItemData> collectedItems = new();
 
-    public void AddKey(KeyData key)
+    public void AddItem(InventoryItemData item)
     {
-        if (!collectedKeys.Contains(key))
+        if (!collectedItems.Contains(item))
         {
-            collectedKeys.Add(key);
+            collectedItems.Add(item);
+            Debug.Log($"Added: {item.itemName}");
             InventoryUIManager.Instance?.RefreshUI();
         }
     }
 
-    public void AddBattery(BatteryData battery)
+    public bool HasItem(InventoryItemData item)
     {
-        collectedBatteries.Add(battery);
-        InventoryUIManager.Instance?.RefreshUI();
+        return collectedItems.Contains(item);
     }
-    
-    public bool HasKey(KeyData key)
+
+    public T GetItem<T>() where T : InventoryItemData
     {
-        return collectedKeys.Contains(key);
+        foreach (var item in collectedItems)
+        {
+            if (item is T matched)
+                return matched;
+        }
+        return null;
     }
+
+    public IEnumerable<InventoryItemData> GetAllItems() => collectedItems;
+
+    public void RemoveItem(InventoryItemData item)
+    {
+        if (collectedItems.Contains(item))
+        {
+            collectedItems.Remove(item);
+            InventoryUIManager.Instance?.RefreshUI();
+        }
+    }
+
+}
+
+
+
+public abstract class InventoryItemData : ScriptableObject
+{
+    public string itemName;
+    public Sprite icon;
+    public string description;
 }

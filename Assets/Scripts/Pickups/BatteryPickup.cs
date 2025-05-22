@@ -9,8 +9,8 @@ public class BatteryPickup : Pickup
         var inventory = player.GetComponent<PlayerInventory>();
         if (inventory != null)
         {
-            inventory.AddBattery(batteryData);
-            Debug.Log("Picked up battery: " + batteryData.displayName);
+            inventory.AddItem(batteryData);
+            Debug.Log("Picked up battery: " + batteryData);
             if (batteryData.icon == null)
             {
                 Debug.Log("icon is null");

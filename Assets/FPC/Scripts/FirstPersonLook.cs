@@ -18,9 +18,12 @@ public class FirstPersonLook : MonoBehaviour
     private float bobTimer = 0f;
     private Vector3 initialCameraLocalPos;
 
+    [SerializeField] PauseMenu pauseMenu; // Reference to the PauseMenu script
+
     void Reset()
     {
         character = GetComponentInParent<FirstPersonMovement>().transform;
+
     }
 
     void Start()
@@ -34,17 +37,21 @@ public class FirstPersonLook : MonoBehaviour
 
     void Update()
     {
-        // Mouse look
-        Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
-        frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
-        velocity += frameVelocity;
+        if (!pauseMenu.isPaused )
+        {
+            // Mouse look
+            Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+            Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
+            frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
+            velocity += frameVelocity;
 
-        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
-        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+            transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
+            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
 
-        // Head bobbing
-        HandleHeadBobbing();
+            // Head bobbing
+            HandleHeadBobbing();
+        }
+
     }
 
     void HandleHeadBobbing()

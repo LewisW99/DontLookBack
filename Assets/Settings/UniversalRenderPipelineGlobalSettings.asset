@@ -41,7 +41,7 @@ MonoBehaviour:
       - rid: 6852985685364965381
       - rid: 6852985685364965382
       - rid: 6852985685364965383
-      - rid: 8504647066575962303
+      - rid: 4469295369721479168
       - rid: 6852985685364965385
       - rid: 6852985685364965386
       - rid: 6852985685364965387
@@ -67,7 +67,7 @@ MonoBehaviour:
       - rid: 6852985685364965379
       - rid: 6852985685364965380
       - rid: 6852985685364965381
-      - rid: 8504647066575962303
+      - rid: 4469295369721479168
       - rid: 6852985685364965385
       - rid: 6852985685364965392
       - rid: 6852985685364965394
@@ -104,6 +104,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 4469295369721479168
+      type: {class: URPDefaultVolumeProfileSettings, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
+      data:
+        m_Version: 0
+        m_VolumeProfile: {fileID: 11400000, guid: 755f7c015a0d1d5468636d1c08f9beda, type: 2}
     - rid: 6852985685364965376
       type: {class: URPShaderStrippingSetting, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -390,11 +395,6 @@ MonoBehaviour:
           - {r: 0.5, g: 0, b: 0.5, a: 1}
           - {r: 0.5, g: 0.5, b: 0.5, a: 1}
           - {r: 0, g: 0, b: 1, a: 1}
-    - rid: 8504647066575962303
-      type: {class: URPDefaultVolumeProfileSettings, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
-      data:
-        m_Version: 0
-        m_VolumeProfile: {fileID: 11400000, guid: 755f7c015a0d1d5468636d1c08f9beda, type: 2}
     - rid: 8712630790384254976
       type: {class: RenderGraphUtilsResources, ns: UnityEngine.Rendering.RenderGraphModule.Util, asm: Unity.RenderPipelines.Core.Runtime}
       data:

@@ -9,8 +9,8 @@ public class KeyPickup : Pickup
         PlayerInventory inventory = player.GetComponent<PlayerInventory>();
         if (inventory != null && keyData != null)
         {
-            inventory.AddKey(keyData);
-            Debug.Log($"Picked up key: {keyData.displayName}");
+            inventory.AddItem(keyData);
+            Debug.Log($"Picked up key: {keyData}");
         }
         else
         {

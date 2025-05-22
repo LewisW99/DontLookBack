@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7613a91514e16c04f83b9858cdfa1f57, type: 3}
   m_Name: StudyKey
   m_EditorClassIdentifier: 
+  itemName: Study Key
+  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  description: a key to unlock the study
   keyID: Study
-  displayName: Study Key
-  icon: {fileID: 21300000, guid: b4c9102f667849238fa89554c7433f4f, type: 3}

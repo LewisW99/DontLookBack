@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Linq;
 public class FlashlightBattery : MonoBehaviour
 {
     [Header("Battery Settings")]
@@ -95,18 +95,26 @@ public class FlashlightBattery : MonoBehaviour
     private void TryReloadBattery()
     {
         PlayerInventory inventory = flashlightController.GetComponent<PlayerInventory>();
-        if (inventory == null || inventory.collectedBatteries.Count == 0)
+        if (inventory == null)
+        {
+            Debug.LogWarning("No PlayerInventory found.");
+            return;
+        }
+
+        // Get all batteries from the inventory
+        var batteries = inventory.GetAllItems().OfType<BatteryData>().ToList();
+        if (batteries.Count == 0)
         {
             Debug.Log("No spare batteries.");
             return;
         }
 
-        // Remove first battery (or let player choose in future)
-        BatteryData battery = inventory.collectedBatteries[0];
-        inventory.collectedBatteries.RemoveAt(0);
+        // Use the first battery
+        BatteryData battery = batteries[0];
+        inventory.RemoveItem(battery);
 
-        currentBattery = Mathf.Clamp(currentBattery + battery.restoreAmount, 0f, maxBattery);
-        Debug.Log("Battery reloaded with " + battery.displayName);
+        currentBattery = 100f;
+        Debug.Log("Battery reloaded with " + battery);
         InventoryUIManager.Instance?.RefreshUI();
     }
 
