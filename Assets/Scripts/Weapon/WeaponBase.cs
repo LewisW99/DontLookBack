@@ -3,13 +3,15 @@ using UnityEngine;
 public class WeaponBase : MonoBehaviour
 {
     public WeaponData data;
-
+    [SerializeField] ParticleSystem muzzleFlash;
     private int currentAmmo;
     private float lastShotTime;
 
     void Start()
     {
         currentAmmo = data.magazineSize;
+        if(muzzleFlash == null)
+            muzzleFlash = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -51,6 +53,11 @@ public class WeaponBase : MonoBehaviour
         {
             // If nothing hit, draw a full-length line
             Debug.DrawLine(origin, origin + direction * 100f, Color.yellow, 1f);
+        }
+
+        if(muzzleFlash != null)
+        {
+            muzzleFlash.Play();
         }
 
         lastShotTime = Time.time;
