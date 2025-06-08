@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteractor : MonoBehaviour
 {
     public float interactRange = 3f;
     private Camera playerCamera;
 
+    [SerializeField] int nextSceneIndex;
     private void Start()
     {
         playerCamera = Camera.main;
@@ -22,6 +24,13 @@ public class PlayerInteractor : MonoBehaviour
                 {
                     interactable.Interact(gameObject);
                 }
+            }
+
+            if (FindFirstObjectByType<EnterHouseTrigger>().canEnterHouse)
+            {
+                // Go to loading screen
+                PlayerPrefs.SetInt("NextSceneIndex", nextSceneIndex);
+                SceneManager.LoadScene("LoadingScreen");
             }
         }
     }
