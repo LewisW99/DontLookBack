@@ -41,6 +41,8 @@ public class WeaponBase : MonoBehaviour
 
         Ray ray = new Ray(origin, direction);
         RaycastHit hit;
+        
+     
 
         if (Physics.Raycast(ray, out hit, 100f))
         {
@@ -48,12 +50,20 @@ public class WeaponBase : MonoBehaviour
 
             // Add a red debug line to visualize the hit
             Debug.DrawLine(origin, hit.point, Color.red, 1f);
+            // Try to get Padlock component
+            Padlock padlock = hit.collider.GetComponent<Padlock>();
+            if (padlock != null)
+            {
+                padlock.Break();
+            }
         }
         else
         {
             // If nothing hit, draw a full-length line
             Debug.DrawLine(origin, origin + direction * 100f, Color.yellow, 1f);
         }
+  
+
 
         if(muzzleFlash != null)
         {
@@ -61,6 +71,9 @@ public class WeaponBase : MonoBehaviour
         }
 
         lastShotTime = Time.time;
+        
+        SoundManager.ReportSound(transform.position);
+        
     }
     
     
